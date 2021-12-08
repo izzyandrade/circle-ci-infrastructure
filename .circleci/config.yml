@@ -27,8 +27,23 @@ jobs:
           name: Run Ansible and setup server
           command: ansible-playbook main.yml -i inventory
 
+  smoke_tests:
+    docker:
+      - image: alpine:latest
+    steps:
+      - run: apk add --update curl
+      - run:
+          name: Run smoke test on website
+          command: URL="insertcorrecturlheretotest"
+            if curl -s --head ${URL}
+            then
+            return 0
+            else
+            return 1
+            fi
+
 workflows:
   infrastructure_workflow:
     jobs:
-      # - create_infrastructure
-      - configure_infrastructure
+      - create_infrastructure
+      # - configure_infrastructure
