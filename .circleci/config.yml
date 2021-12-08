@@ -13,7 +13,8 @@ commands:
           name: Destroy infra environment
           when: on_fail
           command: |
-            /usr/local/bin/aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
+            cd /usr/local/bin && \
+            ./aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
 
 jobs:
   create_infrastructure:
@@ -24,8 +25,7 @@ jobs:
       - run:
           name: Create Cloudformation Stack
           command: |
-            cd /usr/local/bin && \
-            ./aws cloudformation deploy \
+            aws cloudformation deploy \
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
