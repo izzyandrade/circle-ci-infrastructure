@@ -34,7 +34,7 @@ jobs:
       - run: apk add --update curl
       - run:
           name: Run smoke test on website
-          command: URL="insertcorrecturlheretotest"
+          command: URL="ec2-3-91-176-57.compute-1.amazonaws.com
             if curl -s --head ${URL}
             then
             return 0
@@ -47,6 +47,6 @@ workflows:
     jobs:
       # - create_infrastructure
       - configure_infrastructure
-      - smoke_tests
-          requires: 
+      - smoke_tests:
+          requires:
             - configure_infrastructure
