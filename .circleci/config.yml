@@ -1,4 +1,13 @@
 version: 2.1
+
+commands:
+  destroy_infrastructure:
+    steps:
+      - run:
+          name: Destroy infra environment
+          command: |
+            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
+
 jobs:
   create_infrastructure:
     docker:
@@ -38,10 +47,12 @@ jobs:
             URL="http://ec2-3-91-176-57.compute-1.amazonaws.com:3000/"
             if curl -s --head ${URL}
             then
-            return 0
+            return 1
             else
             return 1
             fi
+      - destroy_infrastructure
+        when: on_fail
 
 workflows:
   infrastructure_workflow:
