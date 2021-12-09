@@ -56,10 +56,10 @@ jobs:
       - run:
           name: Run smoke test on website
           command: |
-            URL="http://ec2-3-91-176-57.compute-1.amazonaws.com:3000/"
+            URL="http://ec2-3-84-28-189.compute-1.amazonaws.com:3000/"
             if curl -s --head ${URL}
             then
-            return 1
+            return 0
             else
             return 1
             fi
@@ -69,7 +69,7 @@ workflows:
   infrastructure_workflow:
     jobs:
       # - create_infrastructure
-      - configure_infrastructure
+      # - configure_infrastructure
       - smoke_tests:
           requires:
             - configure_infrastructure
